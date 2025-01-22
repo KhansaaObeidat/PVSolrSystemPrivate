@@ -1,0 +1,153 @@
+﻿@model PVSolrSystemPrivate.Models.Customer
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<style>
+    h1 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    label {
+        -webkit-text-stroke-width: medium;
+    }
+
+    .form-group {
+        text-align: start;
+    }
+
+    .form-control {
+        padding: 8px;
+        border-radius: 10px;
+        font-weight: 500;
+    }
+
+    .button-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* مسافة بين الأزرار */
+        margin-top: 20px;
+    }
+
+        .button-row .btn {
+            width: 150px; /* حجم الزر موحد */
+        }
+
+    /* إخفاء النقاط الزهرية دون إلغاء التحقق */
+    input:invalid::-webkit-validation-bubble,
+    input:invalid::after {
+        display: none; /* إخفاء النقاط الزهرية */
+    }
+
+    .row {
+        display: flex;
+        justify-content: center;
+    }
+
+    .modal-header{
+        align-self: center;
+        margin-bottom: 40px
+    }
+
+    .modal-title{
+        font-size:30px;
+    }
+</style>
+<!-- Trigger the modal with a button (optional) -->
+<!-- You can add a button to trigger modal if needed -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit Customer</button> -->
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">تعديل معلومات العميل</h5>
+            </div>
+         
+            <div class="modal-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" asp-for="CustomerId" />
+                    <div class="row ">
+                        <div class="form-group col-5">
+                            <label asp-for="CustomerName" class="control-label"></label>
+                            <input asp-for="CustomerName" class="form-control" placeholder="أدخل اسم العميل" />
+                            <span asp-validation-for="CustomerName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-5">
+                            <label asp-for="PhoneNumber" class="control-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="أدخل رقم الهاتف" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                   
+                    <div class="row">
+                        <div class="form-group col-5">
+                            <label asp-for="SubscriptionNumber" class="control-label"></label>
+                            <input asp-for="SubscriptionNumber" class="form-control" placeholder="أدخل رقم الاشتراك" />
+                            <span asp-validation-for="SubscriptionNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-5">
+                            <label asp-for="Phase" class="control-label"></label>
+                            <select asp-for="Phase" class="form-control" placeholder="عدد الفازات">
+                                <option value="">اختر عدد الفازات</option>
+                                <option value="0">واحد فاز </option>
+                                <option value="1">ثلاث فاز </option>
+                            </select>
+                            <span asp-validation-for="Phase" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-5">
+                            <label asp-for="Location" class="control-label"></label>
+                            <input asp-for="Location" class="form-control" placeholder="أدخل الموقع" />
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-5">
+                            <label asp-for="Notes" class="control-label"></label>
+                            <input asp-for="Notes" class="form-control" placeholder="ملاحظات إضافية" />
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                    </div>
+                
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelEdit" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                <button type="button" class="btn btn-primary" id="confirmEdit">حفظ التغييرات</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Show the modal when the Edit button is clicked
+        document.addEventListener("DOMContentLoaded", function () {
+            // Show the modal by default for editing the customer
+            $('#editModal').modal('show');
+        });
+
+        // Optional: If you want to handle modal form submission manually
+        document.getElementById("confirmEdit").addEventListener("click", function () {
+            // Trigger form submission here if necessary
+            $('form').submit(); // Submit the form when "Confirm Edit" is clicked
+        });  // Optional: If you want to handle modal form submission manually
+          document.getElementById("cancelEdit").addEventListener("click", function () {
+            window.location.href = '@Url.Action("Index", "Customers")'; // Redirect to Index page
+        });
+    </script>
+}

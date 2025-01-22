@@ -1,0 +1,408 @@
+@model PVSolrSystemPrivate.Models.Customer
+<style>
+    .card {
+        text-align: right;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #f8f9fa, #e2e6ea);
+        transition: transform 0.3s;
+        margin-bottom: 20px;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+    .card-header {
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: bold;
+        background-color: #007bff;
+        color: white;
+        padding: 20px;
+        border-bottom: 2px solid #0056b3;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-subtitle {
+        text-align: right;
+        padding: 10px 0;
+        margin: 5px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .btn {
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+    #fileList {
+        margin-top: 20px;
+    }
+
+        #fileList a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: block;
+            margin: 5px 0;
+            transition: color 0.3s;
+        }
+
+            #fileList a:hover {
+                color: #0056b3;
+                text-decoration: underline;
+            }
+
+    canvas {
+        display: block;
+        margin: 20px auto;
+        border-radius: 15px;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    .uploaded-files-section {
+        margin-top: 20px;
+    }
+
+        .uploaded-files-section h5 {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px; /* Add margin for spacing */
+    }
+
+    .btn-upload {
+        background-color: #007bff; /* Primary color */
+        color: white; /* Text color */
+        border: none; /* Remove border */
+        padding: 10px 20px; /* Add padding */
+        border-radius: 5px; /* Rounded corners */
+        transition: background-color 0.3s; /* Smooth transition */
+    }
+
+        .btn-upload:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+    .uploaded-files-section {
+        margin-top: 20px; /* Adjust margin as needed */
+    }
+
+    .card-header {
+        background-color: #f8f9fa; /* Light background for header */
+        font-weight: bold;
+    }
+
+    .uploadForm {
+        background-color: #f8f9fa; /* Light background */
+        border-radius: 10px; /* Rounded corners */
+        padding: 20px; /* Padding around the form */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        margin-bottom: 20px; /* Space below the form */
+    }
+
+        .uploadForm label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px; /* Space below the label */
+        }
+
+        .uploadForm input[type="file"] {
+            border: 1px solid #ccc; /* Border for the file input */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Padding inside the input */
+            width: 100%; /* Full width */
+        }
+
+        .uploadForm .btn-upload {
+            background-color: #007bff; /* Primary color */
+            color: white; /* Text color */
+            border: none; /* Remove border */
+            padding: 10px 20px; /* Add padding */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+            .uploadForm .btn-upload:hover {
+                background-color: #0056b3; /* Darker shade on hover */
+            }
+</style>
+
+<div class="card shadow-lg" style="width: 20rem; border-radius: 15px; overflow: hidden;">
+    <div class="card-header bg-primary text-white">
+        <h4 class="card-title mb-0">معلومات المشترك</h4>
+    </div>
+    <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">
+            <i class="fas fa-phone-alt"></i><span>اسم المشترك:</span>  @Model.CustomerName
+        </h6>
+        <hr />
+        <h6 class="card-subtitle mb-2 text-muted">
+            <i class="fas fa-phone-alt"></i> رقم الهاتف: @Model.PhoneNumber
+        </h6>
+        <hr />
+        <p class="card-subtitle mb-2 text-muted">
+            <i class="fas fa-map-marker-alt"></i> الموقع: @Model.Location
+        </p>
+
+    </div>
+</div>
+
+<div class="container mt-4">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="true">ملفات</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="other-tab" data-toggle="tab" href="#other" role="tab" aria-controls="other" aria-selected="false">قسم آخر</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="consumption-tab" data-toggle="tab" href="#consumption" role="tab" aria-controls="consumption" aria-selected="false">حساب استهلاك العميل</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="files" role="tabpanel" aria-labelledby="files-tab">
+            <div class="card uploadForm">
+                <div class="card-body">
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="customerFiles">رفع أوراق العميل:</label>
+                            <input type="file" class="form-control-file" id="customerFiles" name="customerFiles" multiple>
+                        </div>
+                        <button type="button" class="btn btn-upload" onclick="uploadFiles()">رفع الملفات</button>
+                    </form>
+                    <div id="uploadStatus" class="mt-3"></div>
+                </div>
+            </div>
+            <div class="card uploaded-files-section mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">الملفات المرفوعة</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="fileList">
+                        <!-- سيتم عرض الملفات المرفوعة هنا -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+            <p>محتوى القسم الآخر.</p>
+        </div>
+        <div class="tab-pane fade" id="consumption" role="tabpanel" aria-labelledby="consumption-tab">
+            <div class="card shadow-lg" style="margin-top: 20px;">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">حساب استهلاك العميل</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="name">اسم المشترك:</label>
+                        <input id="customerName" class="form-control" placeholder="أدخل اسم المشترك" />
+                    </div>
+                    <div class="form-group">
+                        <label for="consumptionType">نوع الاستهلاك:</label>
+                        <select id="consumptionType" class="form-control">
+                            <option value="منزلي">منزلي</option>
+                            <option value="تجاري">تجاري</option>
+                            <option value="صناعي">صناعي</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="consumption">الاستهلاك (kWh):</label>
+                        <input id="consumption" type="number" class="form-control" placeholder="أدخل قيمة الاستهلاك" />
+                    </div>
+                    <button id="calculateConsumption" class="btn btn-primary">احسب الاستهلاك</button>
+                    <div id="consumptionResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loadFiles();
+    });
+        function uploadFiles() {
+        const customerId = @Model.CustomerId; // التأكد من تمرير المعرف
+        const inputElement = document.getElementById('customerFiles');
+        const files = inputElement.files;
+
+        if (!files || files.length === 0) {
+            alert("لا توجد ملفات للرفع.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("customerId", customerId);
+        for (let i = 0; i < files.length; i++) {
+            formData.append("customerFiles", files[i]);
+        }
+
+        fetch('/Customers/UploadDocuments', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert(data.message);
+            loadFiles(); // إعادة تحميل قائمة الملفات
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("حدث خطأ أثناء رفع الملفات.");
+        });
+    }
+
+
+     function loadFiles() {
+        fetch('@Url.Action("GetCustomerFiles", "Customers")?customerId=@Model.CustomerId')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(files => {
+                displayFiles(files);
+            })
+            .catch(error => console.error('Error fetching files:', error));
+    }
+
+    function displayFiles(files) {
+        var fileList = document.getElementById('fileList');
+        fileList.innerHTML = ''; // Clear previous files
+
+        if (files.length === 0) {
+            fileList.innerHTML = '<p>لا توجد ملفات مرفوعة.</p>';
+            return;
+        }
+
+        files.forEach(file => {
+            var col = document.createElement('div');
+            col.classList.add('col-md-4', 'mb-3');
+
+            var card = document.createElement('div');
+            card.classList.add('card', 'shadow-sm');
+
+            var cardBody = document.createElement('div');
+            cardBody.classList.add('card-body');
+
+            var fileLink = document.createElement('a');
+            fileLink.href = '@Url.Action("DownloadFile", "Customers")?fileId=' + file.id;
+            fileLink.innerText = file.fileName;
+            fileLink.classList.add('card-title', 'text-primary');
+
+            var deleteButton = document.createElement('button');
+            deleteButton.innerText = 'حذف';
+            deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+            deleteButton.onclick = function() {
+                deleteFile(file.id);
+            };
+
+            cardBody.appendChild(fileLink);
+            cardBody.appendChild(deleteButton);
+            card.appendChild(cardBody);
+            col.appendChild(card);
+            fileList.appendChild(col);
+        });
+    }
+
+    function deleteFile(fileId) {
+        if (!confirm('هل أنت متأكد أنك تريد حذف هذا الملف؟')) {
+            return;
+        }
+
+        fetch('@Url.Action("DeleteFile", "Customers")?fileId=' + fileId, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert(data.message);
+            loadFiles(); // Refresh the file list
+        })
+        .catch(error => {
+            console.error('Error deleting file:', error);
+            alert('حدث خطأ أثناء حذف الملف.');
+        });
+    }
+</script>
+
+<script>
+    document.getElementById('calculateConsumption').addEventListener('click', function() {
+        const name = document.getElementById('customerName').value;
+        const consumption = parseFloat(document.getElementById('consumption').value);
+        const consumptionType = document.getElementById('consumptionType').value;
+
+        // Example consumption calculation logic
+        let bill = 0;
+        if (consumptionType === 'منزلي') {
+            if (consumption <= 300) {
+                bill = consumption * 0.050;
+            } else if (consumption <= 600) {
+                bill = (300 * 0.050) + ((consumption - 300) * 0.100);
+            } else {
+                bill = (300 * 0.050) + (300 * 0.100) + ((consumption - 600) * 0.200);
+            }
+        } else if (consumptionType === 'تجاري') {
+            bill = consumption * 0.120;
+        } else if (consumptionType === 'صناعي') {
+            bill = consumption * 0.060;
+        }
+
+        document.getElementById('consumptionResult').innerHTML = `<h5>الاسم: ${name}</h5><h5>الفاتورة: ${bill.toFixed(2)} JD</h5>`;
+    });
+</script>
+
+<a asp-action="Index" class="btn btn-secondary">العودة إلى القائمة</a>

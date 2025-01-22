@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "الصفحة الرئيسية";
+}
+<style>
+    h1 {
+        margin-bottom: 50px;
+        text-align: center;
+    }
+
+    .card {
+        border-radius: 16px;
+        height: 240px;
+        border: 5px solid rgba(0, 0, 0, .125);
+    }
+
+    .display-4 {
+        text-align: center;
+    }
+
+    .card-title {
+        text-align: center;
+    }
+
+    .card-body {
+        text-align: center;
+        align-self: center;
+    }
+</style>
+<div>
+    <h1> الصفحة الرئيسية</h1>
+
+</div>
+<div class="container text-center mt-5">
+    <div class="row g-3">
+        <!-- استخدام g-3 لتوفير مسافات بين الأعمدة -->
+        <!-- البطاقة الأولى -->
+        <div class="col-md-4">
+            <div class="card text-white bg-info h-100 d-flex flex-column justify-content-between">
+                <div class="card-body">
+                    <h5 class="card-title">إجمالي العملاء</h5>
+                    <p class="card-text display-4">@ViewBag.TotalCustomers</p>
+                </div>
+                <div class="card-footer bg-transparent border-0 text-center">
+                    <a class="btn btn-light" asp-controller="Customers" asp-action="Index">عرض العملاء</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- البطاقة الثانية -->
+        <div class="col-md-4">
+            <div class="card text-white bg-success h-100 d-flex flex-column justify-content-between">
+                <div class="card-body">
+                    <h5 class="card-title">إجمالي القدرة المركبة (كيلوواط)</h5>
+                    <p class="card-text display-4">@ViewBag.TotalCapacity</p>
+                </div>
+                <div class="card-footer bg-transparent border-0 text-center">
+                    <a class="btn btn-light" href="#">تفاصيل</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- البطاقة الثالثة -->
+        <div class="col-md-4">
+            <div class="card text-white bg-warning h-100 d-flex flex-column justify-content-between">
+                <div class="card-body">
+                    <h5 class="card-title">قسم المستودعات</h5>
+                    <p class="card-text ">ملخص أو عدد المنتجات مثلاً</p>
+
+                </div>
+
+                <div class="card-footer bg-transparent border-0 text-center">
+                    <button class="btn btn-light">عرض المستودعات</button>
+                </div>
+            </div>
+        </div>
+        <!-- البطاقة الرابعة -->
+        <div class="col-md-4">
+            <div class="card text-white bg-success h-100 d-flex flex-column justify-content-between">
+                <div class="card-body">
+                    <h5 class="card-title">حساب الاستهلاك </h5>
+                    <p class="card-text ">لمعرفة الجدوى الاقتصادية </p>
+                </div>
+                <div class="card-footer bg-transparent border-0 text-center">
+                    <a class="btn btn-light" asp-controller="Consumption" asp-action="Index">احسب الان</a>
+                </div>
+            </div>
+        </div>
+
+    
+    </div>
+</div>

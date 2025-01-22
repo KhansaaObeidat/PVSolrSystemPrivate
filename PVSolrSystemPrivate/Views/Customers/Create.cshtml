@@ -1,0 +1,109 @@
+﻿@model PVSolrSystemPrivate.Models.Customer
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    h1 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    label {
+        -webkit-text-stroke-width: medium;
+    }
+
+    .form-group {
+        text-align: start;
+    }
+
+    .form-control {
+        padding: 8px;
+        border-radius: 10px;
+        font-weight: 500;
+    }
+
+    .button-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* مسافة بين الأزرار */
+        margin-top: 20px;
+    }
+
+        .button-row .btn {
+            width: 150px; /* حجم الزر موحد */
+        }
+
+    /* إخفاء النقاط الزهرية دون إلغاء التحقق */
+    input:invalid::-webkit-validation-bubble,
+    input:invalid::after {
+        display: none; /* إخفاء النقاط الزهرية */
+    }
+    .row{
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+
+<h1>إضافة عميل جديد</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row ">
+                <div class="form-group col-5">
+                    <label asp-for="CustomerName" class="control-label"></label>
+                    <input asp-for="CustomerName" class="form-control" placeholder="أدخل اسم العميل" />
+                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-5">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="أدخل رقم الهاتف" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-5">
+                    <label asp-for="SubscriptionNumber" class="control-label"></label>
+                    <input asp-for="SubscriptionNumber" class="form-control" placeholder="أدخل رقم الاشتراك" />
+                    <span asp-validation-for="SubscriptionNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group col-5">
+                    <label asp-for="Phase" class="control-label"></label>
+                    <select asp-for="Phase" class="form-control" placeholder="عدد الفازات">
+                        <option value="">اختر عدد الفازات</option>
+                        <option value="0">واحد فاز </option>
+                        <option value="1">ثلاث فاز </option>
+                    </select>
+                    <span asp-validation-for="Phase" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-5">
+                    <label asp-for="Location" class="control-label"></label>
+                    <input asp-for="Location" class="form-control" placeholder="أدخل الموقع" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+                <div class="form-group col-5">
+                    <label asp-for="Notes" class="control-label"></label>
+                    <input asp-for="Notes" class="form-control" placeholder="ملاحظات إضافية" />
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- زرار الحفظ والرجوع بجانب بعض -->
+            <div class="button-row">
+                <input type="submit" value="حفـظ" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-action="Index">ارجع إلى القائمة</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
