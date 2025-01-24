@@ -11,6 +11,7 @@ namespace PVSolrSystemPrivate.Models
         public string SelectedMonth { get; set; } // الشهر المحدد
         public List<double> MonthlyConsumptions { get; set; } // الاستهلاك الشهري لكل شهر
         public List<double> ExportedEnergyValues { get; set; } // الطاقة المصدرة
+
         [ForeignKey("CustomerId")]
         public virtual Customer? Customer { get; set; }
     }

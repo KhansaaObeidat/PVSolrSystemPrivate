@@ -481,7 +481,7 @@
                         <td id="systemSize"><input type="text" /></td>
                         <td>النظام المسموح تركيبه (DC) </td>
                         <td id="allowSystemSize"><input type="text" /> </td>
-                        <td>النظام المسموح تركيبه (AC) </td>
+            <td>النظام المسموح تركيبه (AC) </td>
 
                         <td id="acSystmSize"><input type= "number" placeholder="0"/></td>
                        
@@ -773,50 +773,38 @@
 
 
     <script>
-                                  document.addEventListener("DOMContentLoaded", function () {
-                                      const isSupportedRadios = document.querySelectorAll('input[name="IsSupported"]');
-                                      const yearDiv = document.getElementById("yearDiv");
-                                      const daytimePercentageInput = document.getElementById("daytimePercentage");
-                                      const importedEnergyInputs = document.querySelectorAll(".imported-energy");
-                                      const solarValues = @Html.Raw(Json.Serialize(solarValues));
-                                      const toggleChartBtn = document.getElementById('toggleChartBtn');
-               document.getElementById('calculateButton').addEventListener('click', function() {
-            // Collect all input values for consumption
-            const consumptionInputs = document.querySelectorAll('.imported-energy');
-            let totalConsumption = 0;
-            let count = 0;
+        document.addEventListener("DOMContentLoaded", function () {
+            const isSupportedRadios = document.querySelectorAll('input[name="IsSupported"]');
+            const yearDiv = document.getElementById("yearDiv");
+            const daytimePercentageInput = document.getElementById("daytimePercentage");
+            const importedEnergyInputs = document.querySelectorAll(".imported-energy");
+            const mechanismSelect = document.getElementById("mechanisms");
+            const calculateButton = document.getElementById('calculateButton');
 
-            consumptionInputs.forEach(input => {
-                const value = parseFloat(input.value);
-                if (!isNaN(value)) {
-                    totalConsumption += value;
-                    count++;
+            // Ensure solarValues is correctly serialized
+            const solarValues = @Html.Raw(Json.Serialize(solarValues));
+
+            if (calculateButton && yearDiv) {
+                calculateButton.addEventListener('click', function() {
+                    yearDiv.style.display = 'block'; // Show the table
+                });
+            }
+
+            function calculateDayAndNightConsumption(totalConsumption, daytimePercentage, mechanism) {
+                let daytimeConsumption = 0;
+                let nighttimeConsumption = 0;
+
+                if (mechanism === "آلية صافي القيمة (نفس الموقع الجغرافي)") {
+                    daytimeConsumption = (daytimePercentage / 100) * totalConsumption;
+                    nighttimeConsumption = totalConsumption - daytimeConsumption;
+                } else if (mechanism === "آلية تصدير الكل استجرار الكل") {
+                    nighttimeConsumption = totalConsumption;
                 }
-            });
 
-            // Calculate the average consumption
-            const averageConsumption = count > 0 ? totalConsumption / count : 0;
-
-            // Display the average in the rateConsumption element
-            const rateConsumptionElement = document.getElementById('rateConsumption');
-            if (rateConsumptionElement) {
-                rateConsumptionElement.value = averageConsumption; // Assuming it's an input field
+                return { daytimeConsumption, nighttimeConsumption };
             }
 
-            // Show the "كامل السنة" table
-            const yearDiv = document.getElementById('yearDiv');
-            if (yearDiv) {
-                yearDiv.style.display = 'block'; // Ensure the table is visible
-            }
-        });
-
-                                      function calculateDayAndNightConsumption(totalConsumption, daytimePercentage) {
-                                          const daytimeConsumption = (daytimePercentage / 100) * totalConsumption;
-                                          const nighttimeConsumption = totalConsumption - daytimeConsumption;
-                                          return { daytimeConsumption, nighttimeConsumption };
-                                      }
-
-                                      function calculateBill(consumption, isSupported, consumptionType) {
+           function calculateBill(consumption, isSupported, consumptionType) {
                                           if (consumptionType === "منزلي") {
                                               if (isSupported) {
                                                   if (consumption <= 300) {
@@ -834,7 +822,7 @@
                                                   }
                                               }
                                           }
- else if (consumptionType === "تجاري") {
+                                               else if (consumptionType === "تجاري") {
                                               if (consumption <= 2000) {
                                                   return consumption * 0.120; // 12 قرش
                                               } else {
@@ -851,24 +839,25 @@
                                           return 0; // في حال لم يتم تحديد نوع الاستهلاك
                                       }
 
-                                      function calculateExportedValue(exportedEnergy, consumptionType) {
-                                          let rate = 0;
+        function calculateExportedValue(exportedEnergy, consumptionType) {
+                                                 let rate = 0;
 
-                                          if (consumptionType === "منزلي") {
-                                              rate = 0.050; // 50 فلس
-                                          } else if (consumptionType === "تجاري" || consumptionType === " صناعي ") {
-                                              rate = 0.040; // 40 فلس
-                                          }
+                                                 if (consumptionType === "منزلي") {
+                                                     rate = 0.050; // 50 فلس
+                                                 } else if (consumptionType === "تجاري" || consumptionType === " صناعي ") {
+                                                     rate = 0.040; // 40 فلس
+                                                 }
 
-                                          return exportedEnergy * rate; // حساب القيمة المالية للطاقة المصدرة
-                                      }
+                                                 return exportedEnergy * rate; // حساب القيمة المالية للطاقة المصدرة
+                                             }
 
-                                      function updateYearCalculation() {
+
+           function updateYearCalculation() {
                                           const isSupported = document.querySelector('input[name="IsSupported"]:checked').value === "true";
                                           const daytimePercentage = parseFloat(daytimePercentageInput.value) || 0;
                                           const consumptionType = document.getElementById("consumptionType").value;
-                                                   const consumptionTypeSelect = document.querySelector('#consumptionType');
-                 const mechanismSelect = document.querySelector('#mechanisms');
+                                            const consumptionTypeSelect = document.querySelector('#consumptionType');
+                                             const mechanism = document.getElementById("mechanisms").value;
 
                                           let totalDaytimeConsumption = 0;
                                           let totalNighttimeConsumption = 0;
@@ -886,19 +875,19 @@
                                               });
                                                       totalExportedEnergy += totalSolarProduction;
                                                               const averageMonthlyProduction = totalSolarProduction / 12;
-        console.log("Average Monthly Production:", averageMonthlyProduction);
+                                              console.log("Average Monthly Production:", averageMonthlyProduction);
 
-        // تحديث حقل معدل الإنتاج إذا كان موجودًا
-        const rateProductionInput = document.querySelector('#rateProduction input');
-        if (rateProductionInput) {
-            rateProductionInput.value = averageMonthlyProduction.toFixed(2);
-            console.log("Updated Rate Production:", rateProductionInput.value);
-        }
+                                              // تحديث حقل معدل الإنتاج إذا كان موجودًا
+                                              const rateProductionInput = document.querySelector('#rateProduction input');
+                                              if (rateProductionInput) {
+                                                  rateProductionInput.value = averageMonthlyProduction.toFixed(2);
+                                                  console.log("Updated Rate Production:", rateProductionInput.value);
+                                              }
 
                                           importedEnergyInputs.forEach((input, index) => {
                                                 const solarValueCell = input.closest('tr').querySelector('.solar-value');
-                                  const solarProduction = parseFloat(solarValueCell.textContent) || 0; // الطاقة المنتجة لهذا الشهر
-                                              const totalConsumption = parseFloat(input.value) || 0;
+                                                 const solarProduction = parseFloat(solarValueCell.textContent) || 0; // الطاقة المنتجة لهذا الشهر
+                                                  const totalConsumption = parseFloat(input.value) || 0;
 
                                               if (totalConsumption === 0) {
                                                   // إذا لم يتم إدخال أي قيمة
@@ -912,7 +901,7 @@
                                               }
 
                                               // حساب الطاقة المستهلكة نهارًا وليلًا
-                                              const { daytimeConsumption, nighttimeConsumption } = calculateDayAndNightConsumption(totalConsumption, daytimePercentage);
+                                              const { daytimeConsumption, nighttimeConsumption } = calculateDayAndNightConsumption(totalConsumption, daytimePercentage, mechanism);
 
                                               // حساب الطاقة المصدرة والمستجرة
                                               let exportedEnergy = solarProduction - daytimeConsumption; // الفرق بين الإنتاج والاستهلاك النهاري
@@ -945,7 +934,7 @@
                                               totalConsumptionBeforeSolar += consumptionBeforeSolar;
 
                                               // تحديث القيم في الجدول
-                                              document.getElementById(`exportedValue-${index}`).value = exportedValue.toFixed();
+                                              document.getElementById(`exportedValue-${index}`).value = exportedValue.toFixed(2);
                                               document.getElementById(`daytimeConsumption-${index}`).value = exportedEnergy;
                                               document.getElementById(`nighttimeConsumption-${index}`).value = adjustedNighttimeConsumption;
                                               document.getElementById(`importedValue-${index}`).value = importedValue.toFixed(2);
@@ -964,38 +953,31 @@
                                           document.getElementById("totalConsumptionBeforeSolar").innerText = totalConsumptionBeforeSolar.toFixed(2);
 
                                           // تحديث الرسم البياني
-                                     
+
                                       }
 
+            function recalculateAll() {
+                updateYearCalculation();
+            }
 
-                                      function recalculateAll() {
-                                          updateYearCalculation();
-                                      }
-
-                                      function showSection(sectionId) {
-                                          yearDiv.classList.add('hidden');
-                                          document.getElementById(sectionId).classList.remove('hidden');
-                                          recalculateAll();
-                                      }
+            isSupportedRadios.forEach(radio => {
+                radio.addEventListener("change", recalculateAll);
+            });
 
 
-                                      isSupportedRadios.forEach(radio => {
-                                          radio.addEventListener("change", recalculateAll);
-                                      });
+            daytimePercentageInput.addEventListener("input", recalculateAll);
+            importedEnergyInputs.forEach(input => {
+                input.addEventListener("input", updateYearCalculation);
+            });
 
-                                      daytimePercentageInput.addEventListener("input", recalculateAll);
-                                      importedEnergyInputs.forEach(input => {
-                                          input.addEventListener("input", updateYearCalculation);
-                                      });
-
-
-                                      document.getElementById("consumptionType").addEventListener("change", function() {
-                                          updateYearCalculation();
-                                      });
-
-                                  });
+            document.getElementById("consumptionType").addEventListener("change", function() {
+                updateYearCalculation();
+            });
+            document.getElementById("mechanisms").addEventListener("change",function(){
+            updateYearCalculation();
+            });
+        });
     </script>
-
     <!-- Function to calculate and update the average consumption -->
     <script>
         function updateAverageConsumption() {
