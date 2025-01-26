@@ -1,6 +1,10 @@
 ﻿@model PVSolrSystemPrivate.Models.ConsumptionCustomer
 @{
     var months = ViewBag.Months as List<string> ?? new List<string>();
+    var monthsJson = Json.Serialize(months); // Serialize months to JSON
+
+    int startIndex = (DateTime.Now.Month - 2 + months.Count) % months.Count;
+
     var solarValues = ViewBag.SolarValues as List<double> ?? new List<double>();
 }
 
@@ -391,7 +395,7 @@
 
         <!-- قسم كامل السنة -->
         <div class="section hidden" id="yearDiv">
-            <h4>المقارنة السنوية للطاقة (Yearly Energy Comparison)</h4>
+            @* <h4>المقارنة السنوية للطاقة (Yearly Energy Comparison)</h4> *@
             <table>
                 <thead>
                     <tr>
@@ -444,21 +448,23 @@
                                 <i class="fas fa-info-circle"></i>
                             </span>
                         </th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @for (int i = 0; i < months.Count; i++)
                     {
+                        int monthIndex = (startIndex + i) % months.Count;
                         <tr>
-                            <td>@months[i]</td>
+                            <td>@months[monthIndex]</td>
                             <td class="solar-value"></td> <!-- This will be filled dynamically -->
-                            <td><input type="number" class="form-control imported-energy" data-index="@i" placeholder="0" /> </td>
-                            <td><input type="text" readonly class="form-control" id="consumptionBeforeSolar-@i" /></td>
-                            <td><input type="text" readonly class="form-control" id="daytimeConsumption-@i" /></td>
-                            <td><input type="text" readonly class="form-control" id="nighttimeConsumption-@i" /></td>
-                            <td><input type="text" readonly class="form-control exported-value" id="exportedValue-@i" /></td>
-                            <td><input type="text" readonly class="form-control imported-value" id="importedValue-@i" /></td>
-                            <td><input type="text" readonly class="form-control difference" id="difference-@i" /></td>
+                            <td><input type="number" class="form-control imported-energy" data-index="@monthIndex" placeholder="0" /> </td>
+                            <td><input type="text" readonly class="form-control" id="consumptionBeforeSolar-@monthIndex" /></td>
+                            <td><input type="text" readonly class="form-control" id="daytimeConsumption-@monthIndex" /></td>
+                            <td><input type="text" readonly class="form-control" id="nighttimeConsumption-@monthIndex" /></td>
+                            <td><input type="text" readonly class="form-control exported-value" id="exportedValue-@monthIndex" /></td>
+                            <td><input type="text" readonly class="form-control imported-value" id="importedValue-@monthIndex" /></td>
+                            <td><input type="text" readonly class="form-control difference" id="difference-@monthIndex" /></td>
                         </tr>
                     }
                 </tbody>
@@ -481,15 +487,15 @@
                         <td id="systemSize"><input type="text" /></td>
                         <td>النظام المسموح تركيبه (DC) </td>
                         <td id="allowSystemSize"><input type="text" /> </td>
-            <td>النظام المسموح تركيبه (AC) </td>
+                        <td>النظام المسموح تركيبه (AC) </td>
 
-                        <td id="acSystmSize"><input type= "number" placeholder="0"/></td>
-                       
+                        <td id="acSystmSize"><input type="number" placeholder="0" /></td>
+
                     </tr>
                     <tr>
                         <td> معدل إنتاج النظام </td>
                         <td id="rateProduction"><input type="text" /> </td>
-</tr>
+                    </tr>
                 </tfoot>
             </table>
 
@@ -547,7 +553,7 @@
     </script>
     <script>
         const mechanisms={
-            "منزلي": [ "آلية صافي القيمة (نفس الموقع الجغرافي)","آلية تصدير الكل استجرار الكل", "انظمة تخزين البطاريات كانظمة مرافقة", " آلية التصدير الصفري (نفس الموقع الجغرافي)"],
+            "منزلي": [ "آلية صافي القيمة (نفس الموقع الجغرافي)", "آلية التصدير الصفري","آلية تصدير الكل استجرار الكل", "انظمة تخزين البطاريات كأنظمة مرافقة" ],
              "زراعي": ["آلية صافي القيمة (نفس الموقع الجغرافي)","آلية صافي القيمة (خارج الموقع الجغرافي)", "آلية التصدير الصفري","آلية تصدير الكل استجرار الكل"],
         "صناعي صغير" :["آلية صافي القيمة (نفس الموقع الجغرافي)","آلية صافي القيمة (خارج الموقع الجغرافي)", "آلية التصدير الصفري","آلية تصدير الكل استجرار الكل"],
         "صناعي متوسط" :["آلية صافي القيمة (نفس الموقع الجغرافي)","آلية صافي القيمة (خارج الموقع الجغرافي)", "آلية التصدير الصفري","آلية تصدير الكل استجرار الكل"],
@@ -660,7 +666,7 @@
                 performanceRatioField.addEventListener('input', updateSolarValues);
             }
 
-         
+
 
             // Attach event listeners to consumption inputs
             document.querySelectorAll('.imported-energy').forEach(input => {
@@ -780,6 +786,8 @@
             const importedEnergyInputs = document.querySelectorAll(".imported-energy");
             const mechanismSelect = document.getElementById("mechanisms");
             const calculateButton = document.getElementById('calculateButton');
+                const startIndex = @startIndex;
+                    const months = @Html.Raw(monthsJson); // Pass the serialized months list
 
             // Ensure solarValues is correctly serialized
             const solarValues = @Html.Raw(Json.Serialize(solarValues));
@@ -791,6 +799,7 @@
             }
 
             function calculateDayAndNightConsumption(totalConsumption, daytimePercentage, mechanism) {
+
                 let daytimeConsumption = 0;
                 let nighttimeConsumption = 0;
 
@@ -799,12 +808,17 @@
                     nighttimeConsumption = totalConsumption - daytimeConsumption;
                 } else if (mechanism === "آلية تصدير الكل استجرار الكل") {
                     nighttimeConsumption = totalConsumption;
+                }else if(mechanism === "آلية التصدير الصفري"){
+
+                     daytimeConsumption = (daytimePercentage / 100) * totalConsumption;
+
+                    nighttimeConsumption = totalConsumption - daytimeConsumption;
                 }
 
                 return { daytimeConsumption, nighttimeConsumption };
             }
 
-           function calculateBill(consumption, isSupported, consumptionType) {
+                                   function calculateBill(consumption, isSupported, consumptionType) {
                                           if (consumptionType === "منزلي") {
                                               if (isSupported) {
                                                   if (consumption <= 300) {
@@ -828,23 +842,35 @@
                                               } else {
                                                   return (2000 * 0.120) + ((consumption - 2000) * 0.152); // أكثر من 2000 كيلو بسعر 152 فلس
                                               }
-                                          } else if (consumptionType === "صناعي") {
+                                          } else if (consumptionType === "صناعي صغير") {
                                               if (consumption <= 10000) {
                                                   return consumption * 0.060; // 60 فلس
                                               } else {
                                                   return (10000 * 0.060) + ((consumption - 10000) * 0.068); // أكثر من 10000 كيلو بسعر 68 فلس
                                               }
+                                          }else if (consumptionType === "صناعي متوسط") {
+                                           if (consumption <= 10000) {
+                                                  return consumption * 0.060; // 60 فلس
+                                              } else {
+                                                  return (10000 * 0.060) + ((consumption - 10000) * 0.068); // أكثر من 10000 كيلو بسعر 68 فلس
+                                              }
+                                          }else if(consumptionType === "زراعي"){
+                                          return consumption * 0.055;
+                                          }
+                                          else if(consumptionType==="فندقي"){
+                                          return consumption *0.082;
                                           }
 
                                           return 0; // في حال لم يتم تحديد نوع الاستهلاك
                                       }
 
-        function calculateExportedValue(exportedEnergy, consumptionType) {
+
+                                   function calculateExportedValue(exportedEnergy, consumptionType) {
                                                  let rate = 0;
 
                                                  if (consumptionType === "منزلي") {
                                                      rate = 0.050; // 50 فلس
-                                                 } else if (consumptionType === "تجاري" || consumptionType === " صناعي ") {
+                                                 } else if (consumptionType === "تجاري" || consumptionType === "صناعي صغير" || consumptionType === "صناعي متوسط" || consumptionType === "زراعي" || consumptionType === "فندقي") {
                                                      rate = 0.040; // 40 فلس
                                                  }
 
@@ -852,7 +878,7 @@
                                              }
 
 
-           function updateYearCalculation() {
+                                   function updateYearCalculation() {
                                           const isSupported = document.querySelector('input[name="IsSupported"]:checked').value === "true";
                                           const daytimePercentage = parseFloat(daytimePercentageInput.value) || 0;
                                           const consumptionType = document.getElementById("consumptionType").value;
@@ -875,37 +901,70 @@
                                               });
                                                       totalExportedEnergy += totalSolarProduction;
                                                               const averageMonthlyProduction = totalSolarProduction / 12;
-                                              console.log("Average Monthly Production:", averageMonthlyProduction);
 
                                               // تحديث حقل معدل الإنتاج إذا كان موجودًا
                                               const rateProductionInput = document.querySelector('#rateProduction input');
                                               if (rateProductionInput) {
                                                   rateProductionInput.value = averageMonthlyProduction.toFixed(2);
-                                                  console.log("Updated Rate Production:", rateProductionInput.value);
                                               }
 
+
                                           importedEnergyInputs.forEach((input, index) => {
+
+                                                  const monthIndex = (startIndex + index) % months.length; // Adjust index to start from the previous month
+
                                                 const solarValueCell = input.closest('tr').querySelector('.solar-value');
                                                  const solarProduction = parseFloat(solarValueCell.textContent) || 0; // الطاقة المنتجة لهذا الشهر
                                                   const totalConsumption = parseFloat(input.value) || 0;
+                                                    if (totalConsumption < 0) {
+                                                      input.value = 0;
+                                                  }
 
                                               if (totalConsumption === 0) {
                                                   // إذا لم يتم إدخال أي قيمة
-                                                  document.getElementById(`exportedValue-${index}`).value = '';
-                                                  document.getElementById(`daytimeConsumption-${index}`).value = '';
-                                                  document.getElementById(`nighttimeConsumption-${index}`).value = '';
-                                                  document.getElementById(`importedValue-${index}`).value = '';
-                                                  document.getElementById(`difference-${index}`).value = '';
-                                                  document.getElementById(`consumptionBeforeSolar-${index}`).value = '';
+                                                  document.getElementById(`exportedValue-${monthIndex}`).value = '';
+                                                  document.getElementById(`daytimeConsumption-${monthIndex}`).value = '';
+                                                  document.getElementById(`nighttimeConsumption-${monthIndex}`).value = '';
+                                                  document.getElementById(`importedValue-${monthIndex}`).value = '';
+                                                  document.getElementById(`difference-${monthIndex}`).value = '';
+                                                  document.getElementById(`consumptionBeforeSolar-${monthIndex}`).value = '';
                                                   return;
                                               }
 
                                               // حساب الطاقة المستهلكة نهارًا وليلًا
                                               const { daytimeConsumption, nighttimeConsumption } = calculateDayAndNightConsumption(totalConsumption, daytimePercentage, mechanism);
+                                                     // حساب الطاقة المصدرة والمستجرة
+                                                   let exportedEnergy = 0;
+                                                   let adjustedNighttimeConsumption = 0;
+                                              if(mechanism==="آلية تصدير الكل استجرار الكل"){
+                                                      exportedEnergy = solarProduction - daytimeConsumption;
+                                                    adjustedNighttimeConsumption = nighttimeConsumption;
+                                                      if (exportedEnergy < 0) {
+                                                  // إذا كانت الطاقة المصدرة سالبة، يتم تصفير الطاقة المصدرة وإضافة الفرق إلى الاستهلاك الليلي
+                                                  adjustedNighttimeConsumption += Math.abs(exportedEnergy);
+                                                  exportedEnergy = 0; // تصفير الطاقة المصدرة
+                                              }
+                                              }else if(mechanism==="آلية صافي القيمة (نفس الموقع الجغرافي)"){
+                                                      exportedEnergy = solarProduction - daytimeConsumption;
+                                                    adjustedNighttimeConsumption = nighttimeConsumption;
+                                                      if (exportedEnergy < 0) {
+                                                  // إذا كانت الطاقة المصدرة سالبة، يتم تصفير الطاقة المصدرة وإضافة الفرق إلى الاستهلاك الليلي
+                                                  adjustedNighttimeConsumption += Math.abs(exportedEnergy);
+                                                  exportedEnergy = 0; // تصفير الطاقة المصدرة
+                                              }
+                                              }else if(mechanism==="آلية التصدير الصفري"){
+                                                           exportedEnergy = solarProduction - daytimeConsumption;
+                                                    adjustedNighttimeConsumption = nighttimeConsumption;
+                                                      if (exportedEnergy < 0) {
+                                                  // إذا كانت الطاقة المصدرة سالبة، يتم تصفير الطاقة المصدرة وإضافة الفرق إلى الاستهلاك الليلي
+                                                  adjustedNighttimeConsumption += Math.abs(exportedEnergy);
+                                                  exportedEnergy = 0; // تصفير الطاقة المصدرة
+                                              }
+                                                 exportedEnergy = 0; // تصفير الطاقة المصدرة
 
-                                              // حساب الطاقة المصدرة والمستجرة
-                                              let exportedEnergy = solarProduction - daytimeConsumption; // الفرق بين الإنتاج والاستهلاك النهاري
-                                              let adjustedNighttimeConsumption = nighttimeConsumption;
+                                              }
+
+
 
                                               if (exportedEnergy < 0) {
                                                   // إذا كانت الطاقة المصدرة سالبة، يتم تصفير الطاقة المصدرة وإضافة الفرق إلى الاستهلاك الليلي
@@ -934,12 +993,12 @@
                                               totalConsumptionBeforeSolar += consumptionBeforeSolar;
 
                                               // تحديث القيم في الجدول
-                                              document.getElementById(`exportedValue-${index}`).value = exportedValue.toFixed(2);
-                                              document.getElementById(`daytimeConsumption-${index}`).value = exportedEnergy;
-                                              document.getElementById(`nighttimeConsumption-${index}`).value = adjustedNighttimeConsumption;
-                                              document.getElementById(`importedValue-${index}`).value = importedValue.toFixed(2);
-                                              document.getElementById(`difference-${index}`).value = difference.toFixed(2);
-                                              document.getElementById(`consumptionBeforeSolar-${index}`).value = consumptionBeforeSolar.toFixed(2);
+                                              document.getElementById(`exportedValue-${monthIndex}`).value = exportedValue.toFixed(2);
+                                              document.getElementById(`daytimeConsumption-${monthIndex}`).value = exportedEnergy;
+                                              document.getElementById(`nighttimeConsumption-${monthIndex}`).value = adjustedNighttimeConsumption;
+                                              document.getElementById(`importedValue-${monthIndex}`).value = importedValue.toFixed(2);
+                                              document.getElementById(`difference-${monthIndex}`).value = difference.toFixed(2);
+                                              document.getElementById(`consumptionBeforeSolar-${monthIndex}`).value = consumptionBeforeSolar.toFixed(2);
                                           });
 
                                           // تحديث القيم الإجمالية في الجدول
@@ -976,6 +1035,9 @@
             document.getElementById("mechanisms").addEventListener("change",function(){
             updateYearCalculation();
             });
+            document.getElementById("allowSystemSize").addEventListener("change",function(){
+                 calculateDayAndNightConsumption();  });
+
         });
     </script>
     <!-- Function to calculate and update the average consumption -->
@@ -1009,8 +1071,7 @@
         });
     </script>
 
-    <!-- Function to calculate and update the average system production -->
-    
+
 </body>
 
 </html>
