@@ -583,18 +583,18 @@
     <script>
                   document.addEventListener('DOMContentLoaded', function() {
             const sunlightHoursData = {
-                "January":   { "Amman": 120, "Irbid": 115, "Al-Zarqa": 125, "Aqaba": 160, "Ma`an": 150, "Jerash": 120, "Ajloun": 115, "Al-Mafraq": 125, "Tafila": 130, "Karak": 125, "Al-Salt": 118 },
-                "February":  { "Amman": 140, "Irbid": 135, "Al-Zarqa": 145, "Aqaba": 180, "Ma`an": 170, "Jerash": 140, "Ajloun": 135, "Al-Mafraq": 145, "Tafila": 150, "Karak": 145, "Al-Salt": 137 },
-                "March":     { "Amman": 170, "Irbid": 165, "Al-Zarqa": 175, "Aqaba": 200, "Ma`an": 190, "Jerash": 170, "Ajloun": 165, "Al-Mafraq": 175, "Tafila": 180, "Karak": 175, "Al-Salt": 168 },
-                "April":     { "Amman": 200, "Irbid": 195, "Al-Zarqa": 210, "Aqaba": 230, "Ma`an": 220, "Jerash": 200, "Ajloun": 195, "Al-Mafraq": 210, "Tafila": 210, "Karak": 205, "Al-Salt": 198 },
-                "May":       { "Amman": 240, "Irbid": 230, "Al-Zarqa": 245, "Aqaba": 270, "Ma`an": 260, "Jerash": 240, "Ajloun": 230, "Al-Mafraq": 245, "Tafila": 250, "Karak": 240, "Al-Salt": 235 },
-                "June":      { "Amman": 260, "Irbid": 250, "Al-Zarqa": 265, "Aqaba": 300, "Ma`an": 290, "Jerash": 260, "Ajloun": 250, "Al-Mafraq": 265, "Tafila": 270, "Karak": 260, "Al-Salt": 255 },
-                "July":      { "Amman": 270, "Irbid": 260, "Al-Zarqa": 275, "Aqaba": 310, "Ma`an": 300, "Jerash": 270, "Ajloun": 260, "Al-Mafraq": 275, "Tafila": 280, "Karak": 270, "Al-Salt": 265 },
-                "August":    { "Amman": 260, "Irbid": 250, "Al-Zarqa": 265, "Aqaba": 300, "Ma`an": 290, "Jerash": 260, "Ajloun": 250, "Al-Mafraq": 265, "Tafila": 270, "Karak": 260, "Al-Salt": 255 },
-                "September": { "Amman": 230, "Irbid": 220, "Al-Zarqa": 235, "Aqaba": 270, "Ma`an": 260, "Jerash": 230, "Ajloun": 220, "Al-Mafraq": 235, "Tafila": 240, "Karak": 230, "Al-Salt": 225 },
-                "October":   { "Amman": 200, "Irbid": 190, "Al-Zarqa": 210, "Aqaba": 240, "Ma`an": 230, "Jerash": 200, "Ajloun": 190, "Al-Mafraq": 210, "Tafila": 210, "Karak": 200, "Al-Salt": 195 },
-                "November":  { "Amman": 160, "Irbid": 150, "Al-Zarqa": 170, "Aqaba": 200, "Ma`an": 190, "Jerash": 160, "Ajloun": 150, "Al-Mafraq": 170, "Tafila": 170, "Karak": 160, "Al-Salt": 155 },
-                "December":  { "Amman": 130, "Irbid": 120, "Al-Zarqa": 140, "Aqaba": 170, "Ma`an": 160, "Jerash": 130, "Ajloun": 120, "Al-Mafraq": 140, "Tafila": 140, "Karak": 130, "Al-Salt": 125 }
+                "January":   { "Amman": 120,"Amman2": 120, "Irbid": 115, "Al-Zarqa": 125, "Aqaba": 160, "Ma`an": 150, "Jerash": 120, "Ajloun": 115, "Al-Mafraq": 125, "Tafila": 130, "Karak": 125, "Al-Salt": 118 },
+                "February":  { "Amman": 140,"Amman2": 140, "Irbid": 135, "Al-Zarqa": 145, "Aqaba": 180, "Ma`an": 170, "Jerash": 140, "Ajloun": 135, "Al-Mafraq": 145, "Tafila": 150, "Karak": 145, "Al-Salt": 137 },
+                "March":     { "Amman": 170,"Amman2": 170, "Irbid": 165, "Al-Zarqa": 175, "Aqaba": 200, "Ma`an": 190, "Jerash": 170, "Ajloun": 165, "Al-Mafraq": 175, "Tafila": 180, "Karak": 175, "Al-Salt": 168 },
+                "April":     { "Amman": 200,"Amman2": 200, "Irbid": 195, "Al-Zarqa": 210, "Aqaba": 230, "Ma`an": 220, "Jerash": 200, "Ajloun": 195, "Al-Mafraq": 210, "Tafila": 210, "Karak": 205, "Al-Salt": 198 },
+                "May":       { "Amman": 240,"Amman2": 240, "Irbid": 230, "Al-Zarqa": 245, "Aqaba": 270, "Ma`an": 260, "Jerash": 240, "Ajloun": 230, "Al-Mafraq": 245, "Tafila": 250, "Karak": 240, "Al-Salt": 235 },
+                "June":      { "Amman": 260,"Amman2": 260, "Irbid": 250, "Al-Zarqa": 265, "Aqaba": 300, "Ma`an": 290, "Jerash": 260, "Ajloun": 250, "Al-Mafraq": 265, "Tafila": 270, "Karak": 260, "Al-Salt": 255 },
+                "July":      { "Amman": 270,"Amman2": 270, "Irbid": 260, "Al-Zarqa": 275, "Aqaba": 310, "Ma`an": 300, "Jerash": 270, "Ajloun": 260, "Al-Mafraq": 275, "Tafila": 280, "Karak": 270, "Al-Salt": 265 },
+                "August":    { "Amman": 260,"Amman2": 260, "Irbid": 250, "Al-Zarqa": 265, "Aqaba": 300, "Ma`an": 290, "Jerash": 260, "Ajloun": 250, "Al-Mafraq": 265, "Tafila": 270, "Karak": 260, "Al-Salt": 255 },
+                "September": { "Amman": 230,"Amman2": 230, "Irbid": 220, "Al-Zarqa": 235, "Aqaba": 270, "Ma`an": 260, "Jerash": 230, "Ajloun": 220, "Al-Mafraq": 235, "Tafila": 240, "Karak": 230, "Al-Salt": 225 },
+                "October":   { "Amman": 200,"Amman2": 200, "Irbid": 190, "Al-Zarqa": 210, "Aqaba": 240, "Ma`an": 230, "Jerash": 200, "Ajloun": 190, "Al-Mafraq": 210, "Tafila": 210, "Karak": 200, "Al-Salt": 195 },
+                "November":  { "Amman": 160,"Amman2": 160, "Irbid": 150, "Al-Zarqa": 170, "Aqaba": 200, "Ma`an": 190, "Jerash": 160, "Ajloun": 150, "Al-Mafraq": 170, "Tafila": 170, "Karak": 160, "Al-Salt": 155 },
+                "December":  { "Amman": 130,"Amman2": 130, "Irbid": 120, "Al-Zarqa": 140, "Aqaba": 170, "Ma`an": 160, "Jerash": 130, "Ajloun": 120, "Al-Mafraq": 140, "Tafila": 140, "Karak": 130, "Al-Salt": 125 }
             };
 
             function updateSolarValues() {
@@ -884,6 +884,7 @@
                                           const consumptionType = document.getElementById("consumptionType").value;
                                             const consumptionTypeSelect = document.querySelector('#consumptionType');
                                              const mechanism = document.getElementById("mechanisms").value;
+        let carriedOverSurplus = 0; // Initialize carried over surplus
 
                                           let totalDaytimeConsumption = 0;
                                           let totalNighttimeConsumption = 0;
@@ -909,98 +910,106 @@
                                               }
 
 
-                                          importedEnergyInputs.forEach((input, index) => {
 
-                                                  const monthIndex = (startIndex + index) % months.length; // Adjust index to start from the previous month
+        importedEnergyInputs.forEach((input, index) => {
+            const monthIndex = (startIndex + index) % months.length; // Adjust index to start from the previous month
+            const solarValueCell = input.closest('tr').querySelector('.solar-value');
+            const solarProduction = parseFloat(solarValueCell.textContent) || 0; // الطاقة المنتجة لهذا الشهر
+            const totalConsumption = parseFloat(input.value) || 0;
+            if (totalConsumption < 0) {
+                input.value = 0;
+            }
 
-                                                const solarValueCell = input.closest('tr').querySelector('.solar-value');
-                                                 const solarProduction = parseFloat(solarValueCell.textContent) || 0; // الطاقة المنتجة لهذا الشهر
-                                                  const totalConsumption = parseFloat(input.value) || 0;
-                                                    if (totalConsumption < 0) {
-                                                      input.value = 0;
-                                                  }
+            if (totalConsumption === 0) {
+                // إذا لم يتم إدخال أي قيمة
+                document.getElementById(`exportedValue-${monthIndex}`).value = '';
+                document.getElementById(`daytimeConsumption-${monthIndex}`).value = '';
+                document.getElementById(`nighttimeConsumption-${monthIndex}`).value = '';
+                document.getElementById(`importedValue-${monthIndex}`).value = '';
+                document.getElementById(`difference-${monthIndex}`).value = '';
+                document.getElementById(`consumptionBeforeSolar-${monthIndex}`).value = '';
+                return;
+            }
 
-                                              if (totalConsumption === 0) {
-                                                  // إذا لم يتم إدخال أي قيمة
-                                                  document.getElementById(`exportedValue-${monthIndex}`).value = '';
-                                                  document.getElementById(`daytimeConsumption-${monthIndex}`).value = '';
-                                                  document.getElementById(`nighttimeConsumption-${monthIndex}`).value = '';
-                                                  document.getElementById(`importedValue-${monthIndex}`).value = '';
-                                                  document.getElementById(`difference-${monthIndex}`).value = '';
-                                                  document.getElementById(`consumptionBeforeSolar-${monthIndex}`).value = '';
-                                                  return;
-                                              }
+            // حساب الطاقة المستهلكة نهارًا وليلًا
+            const { daytimeConsumption, nighttimeConsumption } = calculateDayAndNightConsumption(totalConsumption, daytimePercentage, mechanism);
+            // حساب الطاقة المصدرة والمستجرة
+            let exportedEnergy = 0;
+            let adjustedNighttimeConsumption = 0;
+            if (mechanism === "آلية تصدير الكل استجرار الكل") {
+                exportedEnergy = solarProduction - daytimeConsumption;
+                adjustedNighttimeConsumption = nighttimeConsumption;
+                if (exportedEnergy < 0) {
+                    adjustedNighttimeConsumption += Math.abs(exportedEnergy);
+                    exportedEnergy = 0; // تصفير الطاقة المصدرة
+                }
+            } else if (mechanism === "آلية صافي القيمة (نفس الموقع الجغرافي)") {
+                exportedEnergy = solarProduction - daytimeConsumption;
+                adjustedNighttimeConsumption = nighttimeConsumption;
+                if (exportedEnergy < 0) {
+                    adjustedNighttimeConsumption += Math.abs(exportedEnergy);
+                    exportedEnergy = 0; // تصفير الطاقة المصدرة
+                }
+            } else if (mechanism === "آلية التصدير الصفري") {
+                exportedEnergy = solarProduction - daytimeConsumption;
+                adjustedNighttimeConsumption = nighttimeConsumption;
+                if (exportedEnergy < 0) {
+                    adjustedNighttimeConsumption += Math.abs(exportedEnergy);
+                    exportedEnergy = 0; // تصفير الطاقة المصدرة
+                }
+                exportedEnergy = 0; // تصفير الطاقة المصدرة
+            }
 
-                                              // حساب الطاقة المستهلكة نهارًا وليلًا
-                                              const { daytimeConsumption, nighttimeConsumption } = calculateDayAndNightConsumption(totalConsumption, daytimePercentage, mechanism);
-                                                     // حساب الطاقة المصدرة والمستجرة
-                                                   let exportedEnergy = 0;
-                                                   let adjustedNighttimeConsumption = 0;
-                                              if(mechanism==="آلية تصدير الكل استجرار الكل"){
-                                                      exportedEnergy = solarProduction - daytimeConsumption;
-                                                    adjustedNighttimeConsumption = nighttimeConsumption;
-                                                      if (exportedEnergy < 0) {
-                                                  // إذا كانت الطاقة المصدرة سالبة، يتم تصفير الطاقة المصدرة وإضافة الفرق إلى الاستهلاك الليلي
-                                                  adjustedNighttimeConsumption += Math.abs(exportedEnergy);
-                                                  exportedEnergy = 0; // تصفير الطاقة المصدرة
-                                              }
-                                              }else if(mechanism==="آلية صافي القيمة (نفس الموقع الجغرافي)"){
-                                                      exportedEnergy = solarProduction - daytimeConsumption;
-                                                    adjustedNighttimeConsumption = nighttimeConsumption;
-                                                      if (exportedEnergy < 0) {
-                                                  // إذا كانت الطاقة المصدرة سالبة، يتم تصفير الطاقة المصدرة وإضافة الفرق إلى الاستهلاك الليلي
-                                                  adjustedNighttimeConsumption += Math.abs(exportedEnergy);
-                                                  exportedEnergy = 0; // تصفير الطاقة المصدرة
-                                              }
-                                              }else if(mechanism==="آلية التصدير الصفري"){
-                                                           exportedEnergy = solarProduction - daytimeConsumption;
-                                                    adjustedNighttimeConsumption = nighttimeConsumption;
-                                                      if (exportedEnergy < 0) {
-                                                  // إذا كانت الطاقة المصدرة سالبة، يتم تصفير الطاقة المصدرة وإضافة الفرق إلى الاستهلاك الليلي
-                                                  adjustedNighttimeConsumption += Math.abs(exportedEnergy);
-                                                  exportedEnergy = 0; // تصفير الطاقة المصدرة
-                                              }
-                                                 exportedEnergy = 0; // تصفير الطاقة المصدرة
+            if (exportedEnergy < 0) {
+                adjustedNighttimeConsumption += Math.abs(exportedEnergy);
+                exportedEnergy = 0; // تصفير الطاقة المصدرة
+            }
 
-                                              }
+            exportedEnergy = Math.max(0, exportedEnergy);
 
+            // حساب القيم المالية للطاقة المصدرة والمستجرة
+            const exportedValue = calculateExportedValue(exportedEnergy, consumptionType);
+            const importedValue = calculateBill(adjustedNighttimeConsumption, isSupported, consumptionType);
 
+            // حساب الفرق والفاتورة قبل الطاقة الشمسية
+            let difference = importedValue - exportedValue;
 
-                                              if (exportedEnergy < 0) {
-                                                  // إذا كانت الطاقة المصدرة سالبة، يتم تصفير الطاقة المصدرة وإضافة الفرق إلى الاستهلاك الليلي
-                                                  adjustedNighttimeConsumption += Math.abs(exportedEnergy);
-                                                  exportedEnergy = 0; // تصفير الطاقة المصدرة
-                                              }
+              if (difference < 0) {
+            // إذا كان هناك فائض
+            carriedOverSurplus += difference; // أضف الفرق السالب إلى الرصيد المرحّل (يبقى بالسالب)
+            difference = carriedOverSurplus; // تحديث الفرق الحالي لعرض الرصيد المرحّل
+        } else if (difference >= 0) {
+            // إذا كان هناك عجز
+            if (Math.abs(carriedOverSurplus) >= difference) {
+                carriedOverSurplus += difference; // خصم الفرق من الرصيد المرحّل (يبقى بالسالب)
+                difference = carriedOverSurplus; // عرض الرصيد المرحّل المتبقي
+            } else {
+                difference += carriedOverSurplus; // تحديث الفرق المتبقي بعد خصم الرصيد المرحّل
+                carriedOverSurplus = 0; // تصفير الرصيد المرحّل لأنه تم استهلاكه بالكامل
+            }
+        }
+        
 
-                                              // التأكد أن الطاقة المصدرة لا تعكس الاستهلاك الشهري
-                                              exportedEnergy = Math.max(0, exportedEnergy);
+            const consumptionBeforeSolar = calculateBill(totalConsumption, isSupported, consumptionType);
 
-                                              // حساب القيم المالية للطاقة المصدرة والمستجرة
-                                              const exportedValue = calculateExportedValue(exportedEnergy, consumptionType);
-                                              const importedValue = calculateBill(adjustedNighttimeConsumption, isSupported, consumptionType);
+            // تحديث المجموعات
+            totalDaytimeConsumption += daytimeConsumption;
+            totalNighttimeConsumption += adjustedNighttimeConsumption;
+            totalSolarValue += exportedValue;
+            totalImportedEnergy += totalConsumption;
+            totalImportedValue += importedValue;
+            totalDifference += difference;
+            totalConsumptionBeforeSolar += consumptionBeforeSolar;
 
-                                              // حساب الفرق والفاتورة قبل الطاقة الشمسية
-                                              const difference = importedValue - exportedValue;
-                                              const consumptionBeforeSolar = calculateBill(totalConsumption, isSupported, consumptionType);
-
-                                              // تحديث المجموعات
-                                              totalDaytimeConsumption += daytimeConsumption;
-                                              totalNighttimeConsumption += adjustedNighttimeConsumption;
-                                              totalSolarValue += exportedValue;
-                                              totalImportedEnergy += totalConsumption;
-                                              totalImportedValue += importedValue;
-                                              totalDifference += difference;
-                                              totalConsumptionBeforeSolar += consumptionBeforeSolar;
-
-                                              // تحديث القيم في الجدول
-                                              document.getElementById(`exportedValue-${monthIndex}`).value = exportedValue.toFixed(2);
-                                              document.getElementById(`daytimeConsumption-${monthIndex}`).value = exportedEnergy;
-                                              document.getElementById(`nighttimeConsumption-${monthIndex}`).value = adjustedNighttimeConsumption;
-                                              document.getElementById(`importedValue-${monthIndex}`).value = importedValue.toFixed(2);
-                                              document.getElementById(`difference-${monthIndex}`).value = difference.toFixed(2);
-                                              document.getElementById(`consumptionBeforeSolar-${monthIndex}`).value = consumptionBeforeSolar.toFixed(2);
-                                          });
-
+            // تحديث القيم في الجدول
+            document.getElementById(`exportedValue-${monthIndex}`).value = exportedValue.toFixed(2);
+            document.getElementById(`daytimeConsumption-${monthIndex}`).value = exportedEnergy.toFixed(0);
+            document.getElementById(`nighttimeConsumption-${monthIndex}`).value = adjustedNighttimeConsumption.toFixed(0);
+            document.getElementById(`importedValue-${monthIndex}`).value = importedValue.toFixed(2);
+        document.getElementById(`difference-${monthIndex}`).value =  difference.toFixed(2);
+            
+            document.getElementById(`consumptionBeforeSolar-${monthIndex}`).value = consumptionBeforeSolar.toFixed(2);
+        });
                                           // تحديث القيم الإجمالية في الجدول
                                           document.getElementById("totalDaytimeConsumption").innerText = totalDaytimeConsumption.toFixed(2);
                                           document.getElementById("totalNighttimeConsumption").innerText = totalNighttimeConsumption.toFixed(2);
@@ -1011,7 +1020,7 @@
                                           document.getElementById("totalDifference").innerText = totalDifference.toFixed(2);
                                           document.getElementById("totalConsumptionBeforeSolar").innerText = totalConsumptionBeforeSolar.toFixed(2);
 
-                                          // تحديث الرسم البياني
+                                          // تحديث الرسم البيانيhide();
 
                                       }
 
